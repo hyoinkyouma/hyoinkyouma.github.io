@@ -191,6 +191,7 @@ submitBtn.onclick = async () => {
       descInput.value = "";
       linkInput.value = "";
       itemNameInput.value = "";
+      loadProjectData(itemNameInput.value); // Reload project data
     } else {
       alert("Project Upload Failed!");
     }
