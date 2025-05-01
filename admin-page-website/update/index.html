@@ -13,6 +13,32 @@
         .brand-logo {
             padding-left: 20px !important;
         }
+        #image-preview-container {
+            margin: 0 auto 20px auto;
+            max-width: 400px;
+            display: none;
+        }
+        #image-preview {
+            width: 100%;
+            max-height: 250px;
+            object-fit: contain;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .preview-error {
+            color: red;
+            font-style: italic;
+            display: none;
+            margin: 10px 0;
+            text-align: center;
+        }
+        .preview-card {
+            box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16);
+            margin: 0;
+        }
+        .preview-wrapper {
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
@@ -49,18 +75,44 @@
                       <label for="link-input">Project Link</label>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="input-field col s12 m4 offset-m4">
-                      <input id="img-input" type="text" name="img-input"/>
-                      <label for="img-input">Image Link</label>
+                
+                <!-- Image Preview Container (Moved above image link input) -->
+                <div class="row" style="display: flex;">
+                  <div class="col s12 m4 offset-m4" id="image-preview-container">
+                    <div class="preview-card">
+                      <div class="preview-wrapper">
+                        <img id="image-preview" alt="Image Preview">
+                        <p class="preview-error">Unable to load image. Please verify the URL.</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                    <div class="row">
-                      <div class="input-field col s12 m4 offset-m4">
-                        <textarea id="desc-input" name="desc-input" class="materialize-textarea"></textarea>
-                        <label for="desc-input">Description</label>
+                
+                <div class="row">
+                  <div class="input-field col s12 m4 offset-m4">
+                      <div class="row" style="margin-bottom: 0;">
+                        <div class="col s8" style="padding-right: 5px;">
+                          <input id="img-input" type="text" name="img-input"/>
+                          <label for="img-input">Image Link</label>
+                        </div>
+                        <div class="col s4" style="padding-left: 5px;">
+                          <div class="file-field input-field" style="margin-top: 0;">
+                            <div class="btn waves-effect waves-light" style="width: 100%; height: 36px; line-height: 36px;">
+                              <span>Upload</span>
+                              <input type="file" id="image-upload-input" accept="image/*">
+                            </div>
+                          </div>
+                        </div>
                       </div>
                   </div>
+                </div>
+                
+                <div class="row">
+                  <div class="input-field col s12 m4 offset-m4">
+                    <textarea id="desc-input" name="desc-input" class="materialize-textarea"></textarea>
+                    <label for="desc-input">Description</label>
+                  </div>
+                </div>
               </div>
               <button id="submitBtn" class="waves-effect waves-light btn" type="button">Upload</button>
             </form>

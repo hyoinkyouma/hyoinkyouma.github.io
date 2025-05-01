@@ -25,8 +25,58 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (projectName) {
     loadProjectData(projectName);
+  } else {
+    // Hide project name if it was still there from a previous update
+    document.querySelector("h1").textContent = "Upload";
+    submitBtn.textContent = "Upload";
   }
+
+  // Set up image preview functionality
+  imgInput.addEventListener("input", updateImagePreview);
+  imgInput.addEventListener("change", updateImagePreview);
+  imgInput.addEventListener("paste", function () {
+    // Set a small timeout to let the paste operation complete
+    setTimeout(updateImagePreview, 100);
+  });
+
+  // Set up image upload functionality
+  const imageUploadInput = document.getElementById("image-upload-input");
+  imageUploadInput.addEventListener("change", handleImageUpload);
 });
+
+// Function to update the image preview
+function updateImagePreview() {
+  const imageUrl = imgInput.value.trim();
+  const previewContainer = document.getElementById("image-preview-container");
+  const imagePreview = document.getElementById("image-preview");
+  const errorMessage = document.querySelector(".preview-error");
+
+  // Clear previous error
+  errorMessage.style.display = "none";
+
+  if (imageUrl) {
+    // Show the preview container
+    previewContainer.style.display = "block";
+
+    // Set the image source
+    imagePreview.src = imageUrl;
+
+    // Handle image load error
+    imagePreview.onerror = function () {
+      imagePreview.style.display = "none";
+      errorMessage.style.display = "block";
+    };
+
+    // Handle successful load
+    imagePreview.onload = function () {
+      imagePreview.style.display = "block";
+      errorMessage.style.display = "none";
+    };
+  } else {
+    // Hide the preview if no URL is provided
+    previewContainer.style.display = "none";
+  }
+}
 
 // Function to load project data for editing
 async function loadProjectData(projectName) {
@@ -61,6 +111,9 @@ async function loadProjectData(projectName) {
     // Update form labels (for Materialize CSS proper display)
     M.updateTextFields();
 
+    // Update image preview if an image URL is present
+    updateImagePreview();
+
     // Update page title to indicate editing mode
     document.querySelector("h1").textContent = `Edit Project: ${projectName}`;
     submitBtn.textContent = "Update Project";
@@ -70,6 +123,7 @@ async function loadProjectData(projectName) {
 
     // Remove loading message
     document.getElementById("loading-message")?.remove();
+    updateImagePreview();
 
     // Show success message
     M.toast({
@@ -191,7 +245,13 @@ submitBtn.onclick = async () => {
       descInput.value = "";
       linkInput.value = "";
       itemNameInput.value = "";
-      loadProjectData(itemNameInput.value); // Reload project data
+
+      // Clear image preview after successful upload
+      document.getElementById("image-preview-container").style.display = "none";
+
+      // Reset the page title to "Upload" after successful submission
+      document.querySelector("h1").textContent = "Upload";
+      submitBtn.textContent = "Upload";
     } else {
       alert("Project Upload Failed!");
     }
@@ -204,3 +264,64 @@ submitBtn.onclick = async () => {
     submitBtn.textContent = "Submit";
   }
 };
+
+// Function to handle image upload
+async function handleImageUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  // File validation
+  if (!file.type.match("image.*")) {
+    M.toast({
+      html: "Please select an image file",
+      classes: "red",
+    });
+    return;
+  }
+
+  // Create preview of the selected image
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    // Show the image preview
+    const previewContainer = document.getElementById("image-preview-container");
+    const imagePreview = document.getElementById("image-preview");
+    const errorMessage = document.querySelector(".preview-error");
+
+    previewContainer.style.display = "block";
+    imagePreview.style.display = "block";
+    errorMessage.style.display = "none";
+    imagePreview.src = e.target.result;
+
+    // Currently we're just showing the preview and not uploading to server
+    // The img-input value would normally be updated with the URL returned from server
+    M.toast({
+      html: "Image preview generated. Ready for upload when you submit.",
+      classes: "green",
+    });
+  };
+
+  reader.readAsDataURL(file);
+
+  // Prepare for upload when form is submitted
+  // Note: The actual upload endpoint is left blank as requested
+  // This would typically involve FormData and a fetch request to your server
+
+  /* 
+  Example of how the upload would be implemented:
+  
+  const formData = new FormData();
+  formData.append('image', file);
+  
+  const response = await fetch('YOUR_UPLOAD_ENDPOINT', {
+    method: 'POST',
+    body: formData
+  });
+  
+  const data = await response.json();
+  if (data.success) {
+    // Update the img-input with the returned URL
+    document.getElementById('img-input').value = data.imageUrl;
+    M.updateTextFields();
+  }
+  */
+}
