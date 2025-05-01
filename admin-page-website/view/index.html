@@ -3,11 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Roman Augusto: Admin Page</title>
+    <title>Roman Augusto: Admin Page - View Projects</title>
     <!-- Compiled and minified CSS -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <!-- Material Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
     />
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
@@ -15,6 +20,20 @@
     <style>
       .brand-logo {
         padding-left: 20px !important;
+      }
+      .project-card {
+        transition: transform 0.3s ease;
+      }
+      .project-card:hover {
+        transform: translateY(-5px);
+      }
+      .card-image img {
+        height: 200px;
+        object-fit: cover;
+      }
+      .preloader-wrapper {
+        margin: 50px auto;
+        display: block;
       }
     </style>
   </head>
@@ -28,32 +47,31 @@
           <a href="#" class="brand-logo">Admin Page</a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li><a href="/admin-page-website/update">UPDATE</a></li>
-            <li><a href="#">DELETE</a></li>
-            <li><a href="/admin-page-website/view">VIEW</a></li>
+            <li><a href="/admin-page-website/delete">DELETE</a></li>
+            <li><a href="#">VIEW</a></li>
             <li><a href="#" id="purge-link">PURGE USERS</a></li>
             <li><a href="#" id="logoutBtn">LOGOUT</a></li>
           </ul>
         </div>
       </nav>
     </section>
-    <section id="main" class="center-align">
-      <h1>Delete Projects</h1>
+    <section id="main" class="container">
+      <h1 class="center-align">View All Projects</h1>
+
       <div class="row">
-        <div class="col s12 m8 offset-m2">
+        <div class="col s12">
           <div class="progress" id="loading-indicator">
             <div class="indeterminate"></div>
           </div>
-          <div id="projects-container" class="collection">
-            <!-- Projects will be listed here dynamically -->
-          </div>
-          <div
-            id="no-projects-message"
-            class="center-align"
-            style="display: none"
-          >
-            <p>No projects found in the database.</p>
-          </div>
         </div>
+      </div>
+
+      <div class="row" id="projects-container">
+        <!-- Projects will be loaded dynamically here -->
+      </div>
+
+      <div id="no-projects-message" class="center-align" style="display: none">
+        <p>No projects found in the database.</p>
       </div>
     </section>
   </body>

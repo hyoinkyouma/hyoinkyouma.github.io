@@ -1,0 +1,30 @@
+.project-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+  }
+  
+  .project-name {
+    font-size: 1.2rem;
+  }
+  
+  .delete-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .collection-item:hover {
+    background-color: #f5f5f5;
+  }
+  
+  #loading-indicator {
+    margin: 20px 0;
+  }
+  
+  #no-projects-message {
+    margin: 30px 0;
+    font-size: 1.2rem;
+    color: #757575;
+  }
