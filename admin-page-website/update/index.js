@@ -292,36 +292,56 @@ async function handleImageUpload(event) {
     errorMessage.style.display = "none";
     imagePreview.src = e.target.result;
 
-    // Currently we're just showing the preview and not uploading to server
-    // The img-input value would normally be updated with the URL returned from server
     M.toast({
-      html: "Image preview generated. Ready for upload when you submit.",
-      classes: "green",
+      html: "Image selected. Uploading...",
+      classes: "blue",
     });
+
+    // Upload the image to the server using the specified endpoint
+    uploadImageToServer(file);
   };
 
   reader.readAsDataURL(file);
+}
 
-  // Prepare for upload when form is submitted
-  // Note: The actual upload endpoint is left blank as requested
-  // This would typically involve FormData and a fetch request to your server
+// Function to upload image to server
+async function uploadImageToServer(file) {
+  try {
+    // Create form data for upload
+    const formData = new FormData();
+    formData.append("image", file);
 
-  /* 
-  Example of how the upload would be implemented:
-  
-  const formData = new FormData();
-  formData.append('image', file);
-  
-  const response = await fetch('YOUR_UPLOAD_ENDPOINT', {
-    method: 'POST',
-    body: formData
-  });
-  
-  const data = await response.json();
-  if (data.success) {
-    // Update the img-input with the returned URL
-    document.getElementById('img-input').value = data.imageUrl;
-    M.updateTextFields();
+    // Upload to the specified endpoint
+    const response = await fetch(
+      "https://romanaugusto.up.railway.app/v1/upload-project-images",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Upload failed with status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (data.success) {
+      // Update the img-input with the returned URL
+      document.getElementById("img-input").value = data.link;
+      M.updateTextFields();
+      M.toast({
+        html: "Image uploaded successfully!",
+        classes: "green",
+      });
+    } else {
+      throw new Error(data.message || "Upload failed");
+    }
+  } catch (error) {
+    console.error("Error uploading image:", error);
+    M.toast({
+      html: `Upload failed: ${error.message}`,
+      classes: "red",
+    });
   }
-  */
 }

@@ -106,13 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         );
 
-        if (!response.ok) {
-          throw new Error("Failed to delete project");
-        }
-
-        const result = await response.json();
-
-        if (result.Message === "Success") {
+        if (response.status === 200) {
           // Show success message
           M.toast({
             html: `Project "${projectName}" deleted successfully!`,
@@ -122,7 +116,8 @@ document.addEventListener("DOMContentLoaded", function () {
           // Refresh the project list
           fetchProjects();
         } else {
-          throw new Error(result.Message || "Unknown error occurred");
+          const result = await response.json();
+          throw new Error(result.Message || `Error: ${response.status}`);
         }
       } catch (error) {
         console.error("Error deleting project:", error);
