@@ -9,12 +9,26 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
     />
+    <!-- Material Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <link href="./index.css" rel="stylesheet" />
     <style>
       .brand-logo {
         padding-left: 20px !important;
+      }
+      @media only screen and (max-width: 992px) {
+        .brand-logo {
+          padding-left: 0 !important;
+        }
+        nav .sidenav-trigger {
+          float: right;
+          margin-right: 10px;
+        }
       }
     </style>
   </head>
@@ -25,7 +39,7 @@
     <section id="header-container">
       <nav>
         <div class="nav-wrapper teal darken-2">
-          <a href="#" class="brand-logo">Admin Page</a>
+          <a href="#" class="brand-logo center-on-med-and-down">Admin Page</a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li><a href="/admin-page-website/update">UPDATE</a></li>
             <li><a href="#">DELETE</a></li>
@@ -33,8 +47,44 @@
             <li><a href="#" id="purge-link">PURGE USERS</a></li>
             <li><a href="#" id="logoutBtn">LOGOUT</a></li>
           </ul>
+          <a href="#" data-target="mobile-nav" class="sidenav-trigger right"
+            ><i class="material-icons">menu</i></a
+          >
         </div>
       </nav>
+
+      <!-- Mobile Sidenav -->
+      <ul class="sidenav" id="mobile-nav">
+        <li>
+          <div class="user-view">
+            <div class="background teal darken-2"></div>
+            <span class="white-text name">Admin Panel</span>
+          </div>
+        </li>
+        <li>
+          <a href="/admin-page-website/update"
+            ><i class="material-icons">add_circle</i>UPDATE</a
+          >
+        </li>
+        <li>
+          <a href="#"><i class="material-icons">delete</i>DELETE</a>
+        </li>
+        <li>
+          <a href="/admin-page-website/view"
+            ><i class="material-icons">visibility</i>VIEW</a
+          >
+        </li>
+        <li>
+          <a href="#" id="mobile-purge-link"
+            ><i class="material-icons">delete_forever</i>PURGE USERS</a
+          >
+        </li>
+        <li>
+          <a href="#" id="mobile-logout-btn"
+            ><i class="material-icons">exit_to_app</i>LOGOUT</a
+          >
+        </li>
+      </ul>
     </section>
     <section id="main" class="center-align">
       <h1>Delete Projects</h1>
@@ -56,5 +106,28 @@
         </div>
       </div>
     </section>
+
+    <script>
+      // Initialize mobile sidenav
+      document.addEventListener("DOMContentLoaded", function () {
+        var elems = document.querySelectorAll(".sidenav");
+        var instances = M.Sidenav.init(elems);
+
+        // Add event listeners for mobile menu
+        document
+          .getElementById("mobile-purge-link")
+          .addEventListener("click", function (e) {
+            var purgeEvent = new Event("click");
+            document.getElementById("purge-link").dispatchEvent(purgeEvent);
+          });
+
+        document
+          .getElementById("mobile-logout-btn")
+          .addEventListener("click", function (e) {
+            var logoutEvent = new Event("click");
+            document.getElementById("logoutBtn").dispatchEvent(logoutEvent);
+          });
+      });
+    </script>
   </body>
 </html>
