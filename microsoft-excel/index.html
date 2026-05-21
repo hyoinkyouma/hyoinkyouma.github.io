@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Microsoft Excel | Free Online Spreadsheet</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+
+        <!-- Authentication View Overlay -->
+        <div id="auth-overlay">
+            <div class="auth-card">
+                <h2 id="form-title">Welcome Back</h2>
+                <p id="form-subtitle">Sign in to sync your emulator saves.</p>
+                
+                <div id="message-container" class="msg-box"></div>
+
+                <form id="auth-form">
+                    <!-- Username field is hidden for Login view by default -->
+                    <div class="input-group hidden" id="username-group">
+                        <label for="reg-username">Username</label>
+                        <input type="text" id="reg-username" placeholder="RetroPlayer">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="auth-email">Email Address</label>
+                        <input type="email" id="auth-email" required placeholder="you@example.com">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="auth-password">Password</label>
+                        <input type="password" id="auth-password" required placeholder="••••••••">
+                    </div>
+
+                    <button type="submit" class="btn-primary" id="submit-btn">Sign In</button>
+                </form>
+
+                <div class="auth-switch">
+                    <span id="switch-text">Don't have a profile?</span> 
+                    <a href="#" id="switch-view-btn">Create account</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Emulator Layout Space -->
+        <div class="game-wrapper">
+            <div id="game"></div>
+        </div>
+        <script src="script.js" type="module"></script>
+    </body>
+</html>
