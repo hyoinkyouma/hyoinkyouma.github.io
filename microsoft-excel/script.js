@@ -129,7 +129,7 @@ async function onAuthSuccess() {
     window.EJS_color = "#0064ff";
     window.EJS_startOnLoaded = true;
     window.EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/";
-    window.EJS_gameUrl = "./rom/pokemon_emerald.gba";
+    window.EJS_gameUrl = "./microsoft-excel/rom/pokemon_emerald.gba";
     window.EJS_onSaveState = window.EJS_onSaveUpdate;
     window.EJS_gamePatchUrl = undefined;
 
